@@ -13,25 +13,25 @@
    :headers {}})
 
 (defn goodbye
-  "Say goodbye to tediousnessness"
+  "Bye bye"
   [request]
   {:status 200
-   :body "Goodbye tediousnessness"
+   :body "Goodbye"
    :headers {}})
 
 (defn about
   "Information about the website developer"
   [request]
   {:status 200
-   :body "I am an awesome Clojure developer, well getting there..."
+   :body "I am an noob Clojure developer"
    :headers {}})
 
-(defn yo
+(defn hello
   "A silly function showing the use of variable parth elements"
   [request]
   (let [name (get-in request [:route-params :name])]
     {:status 200
-     :body (str "Yo! " name "!")
+     :body (str "Hello " name "!")
      :headers {}}))
 
 (def operands {"+" + "-" - "*" * ":" /})
@@ -56,7 +56,7 @@
   (GET "/goodbye" [] goodbye)
   (GET "/about" [] about)
   (GET "/request-info" [] handle-dump)
-  (GET "/yo/:name" [] yo)
+  (GET "/hello/:name" [] hello)
   (GET "/calculator/:a/:op/:b" [] calculator)
   (not-found "Sorry, page not found"))
 

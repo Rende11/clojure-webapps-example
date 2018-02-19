@@ -3,62 +3,20 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [compojure.core :refer [defroutes GET]]
             [compojure.route :refer [not-found]]
-            [ring.handler.dump :refer [handle-dump]]))
+            [ring.handler.dump :refer [handle-dump]]
+            [webdev.handlers.routes :as [base]]
+    ))
 
-(defn greet
-  "Say hello to the world of Clojure"
-  [request]
-  {:status 200
-   :body "Hello, Clojure World"
-   :headers {}})
-
-(defn goodbye
-  "Bye bye"
-  [request]
-  {:status 200
-   :body "Goodbye"
-   :headers {}})
-
-(defn about
-  "Information about the website developer"
-  [request]
-  {:status 200
-   :body "I am an noob Clojure developer"
-   :headers {}})
-
-(defn hello
-  "A silly function showing the use of variable parth elements"
-  [request]
-  (let [name (get-in request [:route-params :name])]
-    {:status 200
-     :body (str "Hello " name "!")
-     :headers {}}))
-
-(def operands {"+" + "-" - "*" * ":" /})
-
-(defn calculator
-  "A very simple calculator that can add, divide, subtract and multiply.  This is done through the magic of variable path elements."
-  [request]
-  (let [a  (Integer. (get-in request [:route-params :a]))
-        b  (Integer. (get-in request [:route-params :b]))
-        op (get-in request [:route-params :op])
-        f  (get operands op)]
-    (if f
-      {:status 200
-       :body (str (f a b))
-       :headers {}}
-      {:status 404
-       :body "Sorry, unknown operator.  I only recognise + - * : (: is for division)"
-       :headers {}})))
 
 (defroutes app
-  (GET "/" [] greet)
-  (GET "/goodbye" [] goodbye)
+  (GET "/" [] base.greet)
+  (GET "/goodbye" [] base/goodbye)
   (GET "/about" [] about)
   (GET "/request-info" [] handle-dump)
   (GET "/hello/:name" [] hello)
   (GET "/calculator/:a/:op/:b" [] calculator)
-  (not-found "Sorry, page not found"))
+  (not-found "Sorry, page not found")
+  )
 
 (defn -main
   "A very simple web server using Ring & Jetty"
@@ -66,7 +24,7 @@
   (jetty/run-jetty app
      {:port (Integer. port-number)}))
 
-(defn -dev-main
+(defn dev
   "A very simple web server using Ring & Jetty that reloads code changes via the development profile of Leiningen"
   [port-number]
   (jetty/run-jetty (wrap-reload #'app)

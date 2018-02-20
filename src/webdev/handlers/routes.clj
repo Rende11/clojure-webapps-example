@@ -1,7 +1,11 @@
 (ns webdev.handlers.routes
   (:use
     [hiccup.core]
-    [hiccup.page]))
+    [hiccup.page])
+  (:require
+    [compojure.core :refer :all]
+    [compojure.route :refer [not-found]])
+  (:gen-class))
 
 (defn greet
   "Say hello to the world of Clojure"
@@ -51,3 +55,12 @@
       {:status 404
        :body "Sorry, unknown operator.  I only recognise + - * : (: is for division)"
        :headers {}})))
+
+(defroutes base-routes
+  (GET "/" [] greet)
+  (GET "/goodbye" [] goodbye)
+  (GET "/about" [] about)
+  (GET "/hello/:name" [] hello)
+  (GET "/calculator/:a/:op/:b" [] calculator)
+  (not-found "Sorry, page not found"))
+

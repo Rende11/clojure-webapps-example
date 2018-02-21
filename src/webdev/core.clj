@@ -19,11 +19,12 @@
   :password "63b0cf29df2546cc7ae5847c754126ab3c03b0c80f431ab554a9a935704b10a6"
   :ssl true
   :sslmode true
-  :sslfactory "org.postgresql.ssl.NonValidatingFactory"
+  :sslfactory "org.postgresql.ssl.NonValidatingFactory")
 
-  (defn remote-heroku-db-spec [host port database username password]
-    {:connection-uri} 
-      (str "jdbc:postgresql://" host ":" port "/" database "?user=" username "&password=" password "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory")))
+
+(defn remote-heroku-db-spec [host port database username password]
+  {:connection-uri} 
+  (str "jdbc:postgresql://" host ":" port "/" database "?user=" username "&password=" password "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory"))
 
 
 (defn -main
